@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.Sample\RapidArchitecture.Analyzers.Sample.csproj" Type="Classic C#" />
+  <Project Path="RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.Tests\RapidArchitecture.Analyzers.Tests.csproj" Type="Classic C#" />
+  <Project Path="RapidArchitecture.Analyzers\RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.csproj" Type="Classic C#" />
+</Solution>
