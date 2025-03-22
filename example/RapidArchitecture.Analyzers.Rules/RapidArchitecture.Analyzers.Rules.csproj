@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <IsRoslynComponent>true</IsRoslynComponent>
+
+        <RootNamespace>RapidArchitecture.Analyzers.Rules</RootNamespace>
+        <AssemblyName>RapidArchitecture.Analyzers.Rules</AssemblyName>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.csproj"/>
+    </ItemGroup>
+
+</Project>

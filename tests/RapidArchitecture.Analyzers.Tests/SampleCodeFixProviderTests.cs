@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Xunit;
 using Verifier =
-    Microsoft.CodeAnalysis.CSharp.Testing.XUnit.CodeFixVerifier<RapidArchitecture.Analyzers.SampleSyntaxAnalyzer,
+    Microsoft.CodeAnalysis.CSharp.Testing.XUnit.CodeFixVerifier<RapidArchitecture.Analyzers.Rules.GoogleCompanyRule,
         RapidArchitecture.Analyzers.SampleCodeFixProvider>;
 
 namespace RapidArchitecture.Analyzers.Tests;
@@ -12,7 +12,7 @@ public class SampleCodeFixProviderTests
     public async Task ClassWithMyCompanyTitle_ReplaceWithCommonKeyword()
     {
         const string text = @"
-public class MyCompanyClass
+public class GoogleCompanyClass
 {
 }
 ";
@@ -25,7 +25,7 @@ public class CommonClass
 
         var expected = Verifier.Diagnostic()
             .WithLocation(2, 14)
-            .WithArguments("MyCompanyClass");
+            .WithArguments("GoogleCompanyClass");
         await Verifier.VerifyCodeFixAsync(text, expected, newText).ConfigureAwait(false);
     }
 }

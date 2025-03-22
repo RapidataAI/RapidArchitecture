@@ -12,12 +12,14 @@ using Microsoft.CodeAnalysis.Rename;
 namespace RapidArchitecture.Analyzers;
 
 /// <summary>
-/// A sample code fix provider that renames classes with the company name in their definition.
-/// All code fixes must  be linked to specific analyzers.
+///     A sample code fix provider that renames classes with the company name in their definition.
+///     All code fixes must  be linked to specific analyzers.
 /// </summary>
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SampleCodeFixProvider)), Shared]
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SampleCodeFixProvider))]
+[Shared]
 public class SampleCodeFixProvider : CodeFixProvider
 {
+    public const string CompanyName = "MyCompany";
     private const string CommonName = "Common";
 
     // Specify the diagnostic IDs of analyzers that are expected to be linked.
@@ -25,7 +27,10 @@ public class SampleCodeFixProvider : CodeFixProvider
         ImmutableArray.Create(SampleSyntaxAnalyzer.DiagnosticId);
 
     // If you don't need the 'fix all' behaviour, return null.
-    public override FixAllProvider? GetFixAllProvider() => null;
+    public override FixAllProvider? GetFixAllProvider()
+    {
+        return null;
+    }
 
     public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
@@ -48,14 +53,14 @@ public class SampleCodeFixProvider : CodeFixProvider
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
-                title: string.Format(Resources.AB0001CodeFixTitle, SampleSyntaxAnalyzer.CompanyName, CommonName),
-                createChangedSolution: c => SanitizeCompanyNameAsync(context.Document, declaration, c),
-                equivalenceKey: nameof(Resources.AB0001CodeFixTitle)),
+                string.Format(Resources.AB0001CodeFixTitle, CompanyName, CommonName),
+                c => SanitizeCompanyNameAsync(context.Document, declaration, c),
+                nameof(Resources.AB0001CodeFixTitle)),
             diagnostic);
     }
 
     /// <summary>
-    /// Executed on the quick fix action raised by the user.
+    ///     Executed on the quick fix action raised by the user.
     /// </summary>
     /// <param name="document">Affected source file.</param>
     /// <param name="classDeclarationSyntax">Highlighted class declaration Syntax Node.</param>
@@ -65,7 +70,7 @@ public class SampleCodeFixProvider : CodeFixProvider
         ClassDeclarationSyntax classDeclarationSyntax, CancellationToken cancellationToken)
     {
         // 'Identifier' means the token of the node. Compute the new name based on the text of the token of the node.
-        var newName = classDeclarationSyntax.Identifier.Text.Replace(SampleSyntaxAnalyzer.CompanyName, CommonName);
+        var newName = classDeclarationSyntax.Identifier.Text.Replace(CompanyName, CommonName);
 
         // To make a refactoring, we need to get compiled code metadata: the Semantic Model.
         var semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);

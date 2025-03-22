@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
 using Xunit;
-using Verifier =
-    Microsoft.CodeAnalysis.CSharp.Testing.XUnit.AnalyzerVerifier<
-        RapidArchitecture.Analyzers.SampleSemanticAnalyzer>;
+using Verifier = Microsoft.CodeAnalysis.CSharp.Testing.XUnit.AnalyzerVerifier<
+    RapidArchitecture.Analyzers.SampleSemanticAnalyzer>;
 
 namespace RapidArchitecture.Analyzers.Tests;
 

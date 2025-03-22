@@ -1,5 +1,12 @@
 ﻿<Solution>
-  <Project Path="RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.Sample\RapidArchitecture.Analyzers.Sample.csproj" Type="Classic C#" />
-  <Project Path="RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.Tests\RapidArchitecture.Analyzers.Tests.csproj" Type="Classic C#" />
-  <Project Path="RapidArchitecture.Analyzers\RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.csproj" Type="Classic C#" />
+  <Folder Name="/example/">
+    <Project Path="example\RapidArchitecture.Analyzers.Rules\RapidArchitecture.Analyzers.Rules.csproj" Type="Classic C#" />
+    <Project Path="example\RapidArchitecture.Analyzers.Sample\RapidArchitecture.Analyzers.Sample.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src\RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests\RapidArchitecture.Analyzers.Tests\RapidArchitecture.Analyzers.Tests.csproj" Type="Classic C#" />
+  </Folder>
 </Solution>

@@ -3,7 +3,7 @@
   "profiles": {
     "DebugRoslynAnalyzers": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "../RapidArchitecture.Analyzers.Sample/RapidArchitecture.Analyzers.Sample.csproj"
+      "targetProject": "../../example/RapidArchitecture.Analyzers.Sample/RapidArchitecture.Analyzers.Sample.csproj"
     }
   }
 }

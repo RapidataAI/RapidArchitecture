@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.csproj"/>
+      <ProjectReference Include="..\..\example\RapidArchitecture.Analyzers.Rules\RapidArchitecture.Analyzers.Rules.csproj" />
     </ItemGroup>
 
 </Project>
