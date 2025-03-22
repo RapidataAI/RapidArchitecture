@@ -14,7 +14,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\..\src\RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.csproj"/>
+      <ProjectReference Include="..\..\src\RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.csproj" OutputItemType="Analyzer"/>
     </ItemGroup>
 
 </Project>

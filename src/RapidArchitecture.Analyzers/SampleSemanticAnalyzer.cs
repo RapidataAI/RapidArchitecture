@@ -12,7 +12,6 @@ namespace RapidArchitecture.Analyzers;
 ///     To make sure that we analyze the method of the specific class, we use semantic analysis instead of the syntax tree,
 ///     so this analyzer will not work if the project is not compilable.
 /// </summary>
-[DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class SampleSemanticAnalyzer : DiagnosticAnalyzer
 {
     private const string CommonApiClassName = "Spaceship";
