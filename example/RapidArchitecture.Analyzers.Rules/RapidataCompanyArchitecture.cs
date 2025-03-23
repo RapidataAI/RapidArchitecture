@@ -10,6 +10,8 @@ public class RapidataCompanyArchitecture : ArchitectureAnalyzer
     public RapidataCompanyArchitecture()
     {
         RuleFor(Classes().ResidingInNamespace("Rapidata"))
-            .Must(x => x.Identifier.Text.Contains("Rapidata"));
+            .Must()
+            .Custom(x => x.Identifier.Text.Contains("Rapidata"))
+            .WithLocation(x => x.Identifier.GetLocation());
     }
 }

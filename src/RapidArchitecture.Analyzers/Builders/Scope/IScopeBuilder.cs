@@ -1,16 +1,14 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RapidArchitecture.Analyzers.Builders.Scope;
 
-public interface IScopeBuilder
+public interface IScopeBuilder<out TSyntaxNode>
+    where TSyntaxNode : SyntaxNode
 {
     SyntaxKind[] SyntaxKinds { get; }
     
-    IEnumerable<TypeDeclarationSyntax> Identify(SyntaxNodeAnalysisContext context);
+    IEnumerable<TSyntaxNode> Identify(SyntaxNodeAnalysisContext context);
 }

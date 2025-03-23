@@ -8,7 +8,7 @@ namespace RapidArchitecture.Analyzers.Architecture;
 public abstract partial class ArchitectureAnalyzer : DiagnosticAnalyzer
 {
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.CreateRange(_ruleBuilder.SelectMany(x => x.Descriptors));
+        ImmutableArray.CreateRange(_rules.SelectMany(x => x.Descriptors));
 
     public override void Initialize(AnalysisContext context)
     {
@@ -21,9 +21,9 @@ public abstract partial class ArchitectureAnalyzer : DiagnosticAnalyzer
         // Subscribe to the Syntax Node with the appropriate 'SyntaxKind' (ClassDeclaration) action.
         // To figure out which Syntax Nodes you should choose, consider installing the Roslyn syntax tree viewer plugin Rossynt: https://plugins.jetbrains.com/plugin/16902-rossynt/
 
-        foreach (var rule in _ruleBuilder)
+        foreach (var rule in _rules)
         {
-            context.RegisterSyntaxNodeAction(rule.Apply, rule.Scope.SyntaxKinds);
+            context.RegisterSyntaxNodeAction(rule.Apply, rule.SyntaxKinds);
         }   
 
         // Check other 'context.Register...' methods that might be helpful for your purposes.

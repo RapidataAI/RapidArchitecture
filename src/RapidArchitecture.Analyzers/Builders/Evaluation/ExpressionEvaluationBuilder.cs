@@ -1,28 +1,31 @@
 using System;
 using System.Linq.Expressions;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RapidArchitecture.Analyzers.Builders.Evaluation;
 
-public class ExpressionEvaluationBuilder : IEvaluationBuilder
+public class ExpressionEvaluationBuilder<TSyntaxNode> : IEvaluationBuilder<TSyntaxNode> where TSyntaxNode : SyntaxNode
 {
-    public ExpressionEvaluationBuilder(Func<TypeDeclarationSyntax, bool> expression)
+    public ExpressionEvaluationBuilder(Expression<Func<TSyntaxNode, bool>> evaluation, Expression<Func<TSyntaxNode, Location>>? location)
     {
-        Expression = expression;
+        Evaluation = evaluation.Compile();
+        GetLocation = location ?? (static x => x.GetLocation());
         Descriptor = new DiagnosticDescriptor("RA0001", "Title", "Message", "Category", DiagnosticSeverity.Warning, true);
     }
 
-    private Func<TypeDeclarationSyntax,bool> Expression { get; }
+    private Func<TSyntaxNode,bool> Evaluation { get; }
     
-    public DiagnosticDescriptor Descriptor { get; }
-
-    public void Evaluate(SyntaxNodeAnalysisContext context, TypeDeclarationSyntax match)
+    public DiagnosticDescriptor Descriptor { get; } 
+    
+    public Expression<Func<TSyntaxNode, Location>> GetLocation { get; set; }
+    
+    public void Evaluate(SyntaxNodeAnalysisContext context, TSyntaxNode match)
     {
-        if (!Expression(match))
+        if (!Evaluation(match))
         {
-            context.ReportDiagnostic(Diagnostic.Create(Descriptor, match.Identifier.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(Descriptor, GetLocation.Compile()(match)));
         }
     }
+
 }

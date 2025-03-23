@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RapidArchitecture.Analyzers.Builders.Scope;
 
-public class ClassScopeBuilder : IScopeBuilder
+public class ClassScopeBuilder : IScopeBuilder<ClassDeclarationSyntax>
 {
     public static ClassScopeBuilder Default { get; } = new(_ => true);
 
@@ -32,7 +31,7 @@ public class ClassScopeBuilder : IScopeBuilder
 
     public SyntaxKind[] SyntaxKinds => [SyntaxKind.ClassDeclaration];
 
-    public IEnumerable<TypeDeclarationSyntax> Identify(SyntaxNodeAnalysisContext context)
+    public IEnumerable<ClassDeclarationSyntax> Identify(SyntaxNodeAnalysisContext context)
     {
         if(context.Node is ClassDeclarationSyntax classDeclaration && _filter.Compile().Invoke(classDeclaration))
         {
