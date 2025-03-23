@@ -10,15 +10,15 @@ namespace RapidArchitecture.Analyzers.Builders.Rule;
 public class EvaluationArchitectureRuleBuilder<TSyntaxNode> 
     where TSyntaxNode : SyntaxNode
 {
-    protected ArchitectureRule<TSyntaxNode> _architectureRule;
+    protected readonly ArchitectureRule<TSyntaxNode> ArchitectureRule;
     public EvaluationArchitectureRuleBuilder(ArchitectureRule<TSyntaxNode> architectureRule)
     {
-        _architectureRule = architectureRule;
+        ArchitectureRule = architectureRule;
     }
     
     public CompletedArchitectureRuleBuilder<TSyntaxNode> Custom(Expression<Func<TSyntaxNode, bool>> expression)
     {
-        _architectureRule.AddEvaluation(new ExpressionEvaluationBuilder<TSyntaxNode>(expression, null));
-        return new CompletedArchitectureRuleBuilder<TSyntaxNode>(_architectureRule);
+        ArchitectureRule.AddEvaluation(new ExpressionEvaluationBuilder<TSyntaxNode>(expression, null, ArchitectureRule.Severity));
+        return new CompletedArchitectureRuleBuilder<TSyntaxNode>(ArchitectureRule);
     }
 }

@@ -9,9 +9,10 @@ public class RapidataCompanyArchitecture : ArchitectureAnalyzer
 {
     public RapidataCompanyArchitecture()
     {
-        RuleFor(Classes().ResidingInNamespace("Rapidata"))
-            .Must()
+        RuleFor(Types().ResidingInNamespace("Rapidata"))
+            .Should()
             .Custom(x => x.Identifier.Text.Contains("Rapidata"))
-            .WithLocation(x => x.Identifier.GetLocation());
+            .WithLocation(x => x.Identifier.GetLocation())
+            .WithMessage("Type name must contain 'Rapidata'");
     }
 }

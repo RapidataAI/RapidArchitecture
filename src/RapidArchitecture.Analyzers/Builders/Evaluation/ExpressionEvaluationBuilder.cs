@@ -7,16 +7,16 @@ namespace RapidArchitecture.Analyzers.Builders.Evaluation;
 
 public class ExpressionEvaluationBuilder<TSyntaxNode> : IEvaluationBuilder<TSyntaxNode> where TSyntaxNode : SyntaxNode
 {
-    public ExpressionEvaluationBuilder(Expression<Func<TSyntaxNode, bool>> evaluation, Expression<Func<TSyntaxNode, Location>>? location)
+    public ExpressionEvaluationBuilder(Expression<Func<TSyntaxNode, bool>> evaluation, Expression<Func<TSyntaxNode, Location>>? location, DiagnosticSeverity severity)
     {
         Evaluation = evaluation.Compile();
         GetLocation = location ?? (static x => x.GetLocation());
-        Descriptor = new DiagnosticDescriptor("RA0001", "Title", "Message", "Category", DiagnosticSeverity.Warning, true);
+        Descriptor = new DiagnosticDescriptor("RA0001", "Title", "Message", "Category", severity, true);
     }
 
     private Func<TSyntaxNode,bool> Evaluation { get; }
     
-    public DiagnosticDescriptor Descriptor { get; } 
+    public DiagnosticDescriptor Descriptor { get; set; } 
     
     public Expression<Func<TSyntaxNode, Location>> GetLocation { get; set; }
     

@@ -8,7 +8,7 @@ namespace RapidArchitecture.Analyzers.Builders.Evaluation;
 public interface IEvaluationBuilder<TSyntaxNode>
     where TSyntaxNode : SyntaxNode
 {
-    DiagnosticDescriptor Descriptor { get; }
+    DiagnosticDescriptor Descriptor { get; set; }
     
     void Evaluate(SyntaxNodeAnalysisContext context, TSyntaxNode match);
     

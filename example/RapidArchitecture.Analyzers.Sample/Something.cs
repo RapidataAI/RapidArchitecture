@@ -4,3 +4,8 @@ public class Something
 {
     
 }
+
+public record SomethingElse
+{
+    
+}
