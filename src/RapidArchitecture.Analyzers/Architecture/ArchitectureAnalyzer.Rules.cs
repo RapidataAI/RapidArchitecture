@@ -18,4 +18,13 @@ public partial class ArchitectureAnalyzer
         _rules.Add(rule);
         return builder;
     }
+    
+    protected InitialArchitectureRuleBuilder<SymbolArchitectureRule<TSymbol>, TSymbol> RuleFor<TSymbol>(SymbolScopeBuilder<TSymbol> scopeBuilder) 
+        where TSymbol : class, ISymbol
+    {
+        var rule = new SymbolArchitectureRule<TSymbol>(scopeBuilder.Build());
+        var builder = new InitialArchitectureRuleBuilder<SymbolArchitectureRule<TSymbol>, TSymbol>(rule);
+        _rules.Add(rule);
+        return builder;
+    }
 }

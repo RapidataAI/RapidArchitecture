@@ -11,13 +11,13 @@ namespace RapidArchitecture.Analyzers.Rules;
 public class SyntaxArchitectureRule<TSyntaxNode> : IArchitectureRule<TSyntaxNode>
     where TSyntaxNode : SyntaxNode
 {
-    private readonly List<IEvaluationBuilder<TSyntaxNode>> _evaluationBuilders = [];
+    private readonly List<IEvaluator<TSyntaxNode>> _evaluationBuilders = [];
     public SyntaxArchitectureRule(SyntaxScope<TSyntaxNode> scope)
     {
         Scope = scope;
     }
 
-    public IList<IEvaluationBuilder<TSyntaxNode>> Evaluations => _evaluationBuilders;
+    public IList<IEvaluator<TSyntaxNode>> Evaluations => _evaluationBuilders;
     
     public DiagnosticSeverity Severity { get; set; }
 
@@ -25,20 +25,23 @@ public class SyntaxArchitectureRule<TSyntaxNode> : IArchitectureRule<TSyntaxNode
     
     public IEnumerable<DiagnosticDescriptor> Descriptors => Evaluations.Select(e => e.Descriptor);
 
-    public void AddEvaluation(IEvaluationBuilder<TSyntaxNode> evaluation)
+    public void AddEvaluation(IEvaluator<TSyntaxNode> evaluation)
     {
         _evaluationBuilders.Add(evaluation);
     }
     
-    private void Apply(SyntaxNodeAnalysisContext obj)
+    private void Apply(SyntaxNodeAnalysisContext context)
     {
-        var matches = Scope.Identify(obj);
+        var matches = Scope.Identify(context);
         
         foreach (var match in matches)
         {
             foreach (var evaluation in _evaluationBuilders)
             {
-                evaluation.Evaluate(obj, match);
+                foreach (var diagnostic in evaluation.Evaluate(match))
+                {
+                    context.ReportDiagnostic(diagnostic);
+                }
             }
         }
     }

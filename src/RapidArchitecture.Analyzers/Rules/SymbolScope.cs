@@ -7,19 +7,21 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RapidArchitecture.Analyzers.Rules;
 
-public class SymbolScope<TSymbol> where TSymbol : ISymbol
+public class SymbolScope<TSymbol> 
+    where TSymbol : ISymbol
 {
-    public SymbolScope(Expression<Func<TSymbol, bool>> filter, ISyntaxScope? syntaxScope)
+    public SymbolScope(Expression<Func<TSymbol, bool>> filter, ISyntaxScope? syntaxScope, SymbolKind[] symbolKinds)
     {
+        SymbolKinds = symbolKinds;
         Filter = filter.Compile();
         SyntaxScope = syntaxScope;
     }
-    
 
     private Func<TSymbol, bool> Filter { get; }
     private ISyntaxScope? SyntaxScope { get; }
-
     
+    public SymbolKind[] SymbolKinds { get; }
+
     public IEnumerable<TSymbol> Identify(SymbolAnalysisContext context)
     {
         if(

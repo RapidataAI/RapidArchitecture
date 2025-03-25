@@ -7,7 +7,7 @@ namespace RapidArchitecture.Analyzers.Rules;
 
 public interface IArchitectureRule<TAnalyse> : IArchitectureRule where TAnalyse : class
 {
-    public IList<IEvaluationBuilder<TAnalyse>> Evaluations { get; }
+    public IList<IEvaluator<TAnalyse>> Evaluations { get; }
 }
 
 public interface IArchitectureRule

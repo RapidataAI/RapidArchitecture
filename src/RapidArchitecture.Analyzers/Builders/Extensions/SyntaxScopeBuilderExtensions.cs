@@ -12,6 +12,6 @@ public static class SyntaxScopeBuilderExtensions
         return new SymbolScopeBuilder<ITypeSymbol>(s => s.AllInterfaces.Any(i =>
                 i.Equals(typeSymbol, SymbolEqualityComparer.Default) ||
                 i.AllInterfaces.Any(ii => ii.Equals(typeSymbol, SymbolEqualityComparer.Default))),
-            scopeBuilder.Build());
+            scopeBuilder.Build(), [SymbolKind.NamedType]);
     }
 }

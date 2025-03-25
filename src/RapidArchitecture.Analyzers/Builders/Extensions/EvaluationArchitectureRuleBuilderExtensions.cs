@@ -16,7 +16,7 @@ public static class EvaluationArchitectureRuleBuilderExtensions
         where TAnalyze : SyntaxNode 
     {
         builder.ArchitectureRule.Evaluations.Add(
-            new ExpressionEvaluationBuilder<TAnalyze>(expression, null, builder.ArchitectureRule.Severity));
+            new ExpressionEvaluator<TAnalyze>(expression, null, builder.ArchitectureRule.Severity));
         return new CompletedArchitectureRuleBuilder<TRule, TAnalyze>(builder.ArchitectureRule);
     }
 }
