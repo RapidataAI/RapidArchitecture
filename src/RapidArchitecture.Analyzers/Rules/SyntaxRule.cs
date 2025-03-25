@@ -4,20 +4,19 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using RapidArchitecture.Analyzers.Builders.Evaluation;
-using RapidArchitecture.Analyzers.Builders.Scope;
 
 namespace RapidArchitecture.Analyzers.Rules;
 
-public class ArchitectureRule<TSyntaxNode> : IArchitectureRule
-    where TSyntaxNode : SyntaxNode
-{
-    private readonly IScopeBuilder<TSyntaxNode> _scope;
-    public ArchitectureRule(IScopeBuilder<TSyntaxNode> scope)
+public class SyntaxRule<TSyntaxNode> where TSyntaxNode : SyntaxNode
+{    
+    private readonly SyntaxScope<TSyntaxNode> _scope;
+    
+    public SyntaxRule(SyntaxScope<TSyntaxNode> scope)
     {
         _scope = scope;
     }
     
-    public IList<IEvaluationBuilder<TSyntaxNode>> Evaluations { get; } = new List<IEvaluationBuilder<TSyntaxNode>>();
+    public IList<IEvaluationBuilder<TSyntaxNode>> Evaluations { get; } = [];
     
     public DiagnosticSeverity Severity { get; set; }
 

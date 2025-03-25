@@ -7,10 +7,10 @@ namespace RapidArchitecture.Analyzers.Architecture;
 
 public partial class ArchitectureAnalyzer
 {
-    protected static ScopeBuilder<ClassDeclarationSyntax> Classes() => new(x => true, [SyntaxKind.ClassDeclaration]);
-    protected static ScopeBuilder<RecordDeclarationSyntax> Records() => new(x => true, [SyntaxKind.RecordDeclaration]);
+    protected static SyntaxScopeBuilder<ClassDeclarationSyntax> Classes() => new(x => true, [SyntaxKind.ClassDeclaration]);
+    protected static SyntaxScopeBuilder<RecordDeclarationSyntax> Records() => new(x => true, [SyntaxKind.RecordDeclaration]);
 
-    protected static ScopeBuilder<TypeDeclarationSyntax> Types() => new(x => true,
+    protected static SyntaxScopeBuilder<TypeDeclarationSyntax> Types() => new(x => true,
     [
         SyntaxKind.ClassDeclaration, SyntaxKind.RecordDeclaration, SyntaxKind.InterfaceDeclaration,
         SyntaxKind.StructDeclaration

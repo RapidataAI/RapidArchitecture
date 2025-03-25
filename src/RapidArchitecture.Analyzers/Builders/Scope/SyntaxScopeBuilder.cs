@@ -6,13 +6,14 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using RapidArchitecture.Analyzers.Rules;
 
 namespace RapidArchitecture.Analyzers.Builders.Scope;
 
-public class ScopeBuilder<TSyntaxNode> : IScopeBuilder<TSyntaxNode>
+public class SyntaxScopeBuilder<TSyntaxNode>
     where TSyntaxNode : SyntaxNode
 {
-    public ScopeBuilder(Expression<Func<TSyntaxNode, bool>> filter, SyntaxKind[] syntaxKinds)
+    public SyntaxScopeBuilder(Expression<Func<TSyntaxNode, bool>> filter, SyntaxKind[] syntaxKinds)
     {
         _filter = filter;
         SyntaxKinds = syntaxKinds;
@@ -22,12 +23,12 @@ public class ScopeBuilder<TSyntaxNode> : IScopeBuilder<TSyntaxNode>
 
     public SyntaxKind[] SyntaxKinds { get; }
     
-    public ScopeBuilder<TSyntaxNode> That(Expression<Func<TSyntaxNode, bool>> filter)
+    public SyntaxScopeBuilder<TSyntaxNode> That(Expression<Func<TSyntaxNode, bool>> filter)
     {
-        return new ScopeBuilder<TSyntaxNode>(filter, SyntaxKinds);
+        return new SyntaxScopeBuilder<TSyntaxNode>(filter, SyntaxKinds);
     }
     
-    public ScopeBuilder<TSyntaxNode> ResidingInNamespace(string namespaceName)
+    public SyntaxScopeBuilder<TSyntaxNode> ResidingInNamespace(string namespaceName)
     {
         return That(c => c.Ancestors(true).OfType<BaseNamespaceDeclarationSyntax>().Any(n => n.Name.ToString().StartsWith(namespaceName)));
     }
@@ -38,5 +39,10 @@ public class ScopeBuilder<TSyntaxNode> : IScopeBuilder<TSyntaxNode>
         {
             yield return specificType;
         }
+    }
+
+    public SyntaxScope<TSyntaxNode> Build()
+    {
+        return new SyntaxScope<TSyntaxNode>(SyntaxKinds, _filter);
     }
 }
