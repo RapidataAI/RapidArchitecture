@@ -32,15 +32,6 @@ public class SyntaxScopeBuilder<TSyntaxNode>
     {
         return That(c => c.Ancestors(true).OfType<BaseNamespaceDeclarationSyntax>().Any(n => n.Name.ToString().StartsWith(namespaceName)));
     }
-    
-    public IEnumerable<TSyntaxNode> Identify(SyntaxNodeAnalysisContext context)
-    {
-        if(context.Node is TSyntaxNode specificType && _filter.Compile().Invoke(specificType))
-        {
-            yield return specificType;
-        }
-    }
-
     public SyntaxScope<TSyntaxNode> Build()
     {
         return new SyntaxScope<TSyntaxNode>(SyntaxKinds, _filter);

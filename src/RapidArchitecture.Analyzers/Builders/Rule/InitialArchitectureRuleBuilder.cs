@@ -3,36 +3,37 @@ using RapidArchitecture.Analyzers.Rules;
 
 namespace RapidArchitecture.Analyzers.Builders.Rule;
 
-public class InitialArchitectureRuleBuilder<TSyntaxNode> 
-    where TSyntaxNode : SyntaxNode
+public class InitialArchitectureRuleBuilder<TArchitectureRule, TAnalyze> 
+    where TArchitectureRule : class, IArchitectureRule<TAnalyze> 
+    where TAnalyze : class
 {
-    private readonly SyntaxArchitectureRule<TSyntaxNode> _syntaxArchitectureRule;
-    public InitialArchitectureRuleBuilder(SyntaxArchitectureRule<TSyntaxNode>  syntaxArchitectureRule)
+    private readonly TArchitectureRule _architectureRule;
+    public InitialArchitectureRuleBuilder(TArchitectureRule  architectureRule)
     {
-        _syntaxArchitectureRule = syntaxArchitectureRule;
+        _architectureRule = architectureRule;
     }
 
-    public EvaluationArchitectureRuleBuilder<TSyntaxNode> Must()
+    public EvaluationArchitectureRuleBuilder<TArchitectureRule, TAnalyze> Must()
     {
-        _syntaxArchitectureRule.Severity = DiagnosticSeverity.Error;
-        return new EvaluationArchitectureRuleBuilder<TSyntaxNode>(_syntaxArchitectureRule);
+        _architectureRule.Severity = DiagnosticSeverity.Error;
+        return new EvaluationArchitectureRuleBuilder<TArchitectureRule, TAnalyze>(_architectureRule);
     }
     
-    public EvaluationArchitectureRuleBuilder<TSyntaxNode> Should()
+    public EvaluationArchitectureRuleBuilder<TArchitectureRule, TAnalyze> Should()
     {
-        _syntaxArchitectureRule.Severity = DiagnosticSeverity.Warning;
-        return new EvaluationArchitectureRuleBuilder<TSyntaxNode>(_syntaxArchitectureRule);
+        _architectureRule.Severity = DiagnosticSeverity.Warning;
+        return new EvaluationArchitectureRuleBuilder<TArchitectureRule, TAnalyze>(_architectureRule);
     }
     
-    public EvaluationArchitectureRuleBuilder<TSyntaxNode> May()
+    public EvaluationArchitectureRuleBuilder<TArchitectureRule, TAnalyze> May()
     {
-        _syntaxArchitectureRule.Severity = DiagnosticSeverity.Info;
-        return new EvaluationArchitectureRuleBuilder<TSyntaxNode>(_syntaxArchitectureRule);
+        _architectureRule.Severity = DiagnosticSeverity.Info;
+        return new EvaluationArchitectureRuleBuilder<TArchitectureRule, TAnalyze>(_architectureRule);
     }
     
-    public EvaluationArchitectureRuleBuilder<TSyntaxNode> MustNot()
+    public EvaluationArchitectureRuleBuilder<TArchitectureRule, TAnalyze> MustNot()
     {
-        _syntaxArchitectureRule.Severity = DiagnosticSeverity.Hidden;
-        return new EvaluationArchitectureRuleBuilder<TSyntaxNode>(_syntaxArchitectureRule);
+        _architectureRule.Severity = DiagnosticSeverity.Hidden;
+        return new EvaluationArchitectureRuleBuilder<TArchitectureRule, TAnalyze>(_architectureRule);
     }
 }

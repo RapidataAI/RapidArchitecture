@@ -8,38 +8,43 @@ using RapidArchitecture.Analyzers.Builders.Scope;
 
 namespace RapidArchitecture.Analyzers.Rules;
 
-public class SyntaxArchitectureRule<TSyntaxNode> : IArchitectureRule
+public class SyntaxArchitectureRule<TSyntaxNode> : IArchitectureRule<TSyntaxNode>
     where TSyntaxNode : SyntaxNode
 {
-    private readonly SyntaxScope<TSyntaxNode> _scope;
+    private readonly List<IEvaluationBuilder<TSyntaxNode>> _evaluationBuilders = [];
     public SyntaxArchitectureRule(SyntaxScope<TSyntaxNode> scope)
     {
-        _scope = scope;
+        Scope = scope;
     }
-    
-    public IList<IEvaluationBuilder<TSyntaxNode>> Evaluations { get; } = new List<IEvaluationBuilder<TSyntaxNode>>();
+
+    public IList<IEvaluationBuilder<TSyntaxNode>> Evaluations => _evaluationBuilders;
     
     public DiagnosticSeverity Severity { get; set; }
 
-    public SyntaxKind[] SyntaxKinds => _scope.SyntaxKinds;
+    private SyntaxScope<TSyntaxNode> Scope { get; }
     
     public IEnumerable<DiagnosticDescriptor> Descriptors => Evaluations.Select(e => e.Descriptor);
 
     public void AddEvaluation(IEvaluationBuilder<TSyntaxNode> evaluation)
     {
-        Evaluations.Add(evaluation);
+        _evaluationBuilders.Add(evaluation);
     }
     
-    public void Apply(SyntaxNodeAnalysisContext obj)
+    private void Apply(SyntaxNodeAnalysisContext obj)
     {
-        var matches = _scope.Identify(obj);
+        var matches = Scope.Identify(obj);
         
         foreach (var match in matches)
         {
-            foreach (var evaluation in Evaluations)
+            foreach (var evaluation in _evaluationBuilders)
             {
                 evaluation.Evaluate(obj, match);
             }
         }
+    }
+
+    public void Apply(AnalysisContext context)
+    {
+        context.RegisterSyntaxNodeAction(Apply, Scope.SyntaxKinds);
     }
 }

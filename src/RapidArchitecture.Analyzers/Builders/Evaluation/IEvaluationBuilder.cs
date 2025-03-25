@@ -5,12 +5,14 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RapidArchitecture.Analyzers.Builders.Evaluation;
 
-public interface IEvaluationBuilder<TSyntaxNode>
-    where TSyntaxNode : SyntaxNode
+public interface IEvaluationBuilder<TAnalyse> : IEvaluationBuilder
+{
+    void Evaluate(SyntaxNodeAnalysisContext context, TAnalyse match);
+    
+    Expression<Func<TAnalyse, Location>> GetLocation { get; set; }
+}
+
+public interface IEvaluationBuilder
 {
     DiagnosticDescriptor Descriptor { get; set; }
-    
-    void Evaluate(SyntaxNodeAnalysisContext context, TSyntaxNode match);
-    
-    Expression<Func<TSyntaxNode, Location>> GetLocation { get; set; }
 }

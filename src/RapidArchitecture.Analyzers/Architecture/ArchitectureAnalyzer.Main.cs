@@ -23,7 +23,7 @@ public abstract partial class ArchitectureAnalyzer : DiagnosticAnalyzer
 
         foreach (var rule in _rules)
         {
-            context.RegisterSyntaxNodeAction(rule.Apply, rule.SyntaxKinds);
+            rule.Apply(context);
         }   
 
         // Check other 'context.Register...' methods that might be helpful for your purposes.

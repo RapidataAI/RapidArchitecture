@@ -1,6 +1,8 @@
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using RapidArchitecture.Analyzers.Architecture;
+using RapidArchitecture.Analyzers.Builders.Extensions;
 
 namespace RapidArchitecture.Analyzers.Rules;
 

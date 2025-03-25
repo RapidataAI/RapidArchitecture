@@ -7,7 +7,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RapidArchitecture.Analyzers.Rules;
 
-public class SyntaxScope<TSyntaxNode> where TSyntaxNode : SyntaxNode
+public class SyntaxScope<TSyntaxNode> : ISyntaxScope
+    where TSyntaxNode : SyntaxNode
 {
     public SyntaxScope(SyntaxKind[] syntaxKinds, Expression<Func<TSyntaxNode, bool>> filter)
     {
@@ -25,5 +26,10 @@ public class SyntaxScope<TSyntaxNode> where TSyntaxNode : SyntaxNode
         {
             yield return specificType;
         }
+    }
+
+    public bool IsMatch(SyntaxNode syntaxNode)
+    {
+        return syntaxNode is TSyntaxNode specificType && Filter(specificType);
     }
 }

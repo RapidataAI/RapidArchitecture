@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.Testing;
 using RapidArchitecture.Analyzers.Architecture;
+using RapidArchitecture.Analyzers.Builders.Extensions;
 using Xunit;
 using AnalyzerTest = Microsoft.CodeAnalysis.CSharp.Testing.CSharpAnalyzerTest<
     RapidArchitecture.Analyzers.Tests.NamespaceSyntaxAnalyzerTests.RapidataCompanyArchitecture,
