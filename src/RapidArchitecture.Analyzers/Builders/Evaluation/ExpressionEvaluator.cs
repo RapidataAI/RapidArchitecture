@@ -3,29 +3,30 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using RapidArchitecture.Analyzers.Builders.Locating;
 
 namespace RapidArchitecture.Analyzers.Builders.Evaluation;
 
-public class ExpressionEvaluator<TSyntaxNode> : IEvaluator<TSyntaxNode> where TSyntaxNode : SyntaxNode
+public class ExpressionEvaluator<TAnalyze> : IEvaluator<TAnalyze>
 {
-    public ExpressionEvaluator(Expression<Func<TSyntaxNode, bool>> evaluation, Expression<Func<TSyntaxNode, Location>>? location, DiagnosticSeverity severity)
+    public ExpressionEvaluator(Expression<Func<TAnalyze, bool>> evaluation, DiagnosticSeverity severity, ILocator<TAnalyze> locator)
     {
+        Locator = locator;
         Evaluation = evaluation.Compile();
-        GetLocation = location ?? (static x => x.GetLocation());
         Descriptor = new DiagnosticDescriptor("RA0001", "Title", "Message", "Category", severity, true);
     }
 
-    private Func<TSyntaxNode,bool> Evaluation { get; }
+    private Func<TAnalyze,bool> Evaluation { get; }
     
     public DiagnosticDescriptor Descriptor { get; set; }
 
-    public IEnumerable<Diagnostic> Evaluate(TSyntaxNode match)
+    public IEnumerable<Diagnostic> Evaluate(TAnalyze match)
     {
         if (!Evaluation(match))
         {
-            yield return Diagnostic.Create(Descriptor, GetLocation.Compile()(match));
+            yield return Diagnostic.Create(Descriptor, Locator.Locate(match));
         }
     }
 
-    public Expression<Func<TSyntaxNode, Location>> GetLocation { get; set; }
+    public ILocator<TAnalyze> Locator { get; set; }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.CodeAnalysis;
 using RapidArchitecture.Analyzers.Builders.Evaluation;
+using RapidArchitecture.Analyzers.Builders.Locating;
 using RapidArchitecture.Analyzers.Builders.Rule;
 using RapidArchitecture.Analyzers.Rules;
 
@@ -17,7 +18,7 @@ public static class CompletedArchitectureRuleBuilderExtensions
             where TAnalyze : class
     {
         var evaluationBuilder = builder.ArchitectureRule.Evaluations.Last()!;
-        evaluationBuilder.GetLocation = location;
+        evaluationBuilder.Locator = new ExpressionLocator<TAnalyze>(location);
         return builder;
     }
 
@@ -25,7 +26,7 @@ public static class CompletedArchitectureRuleBuilderExtensions
         this CompletedArchitectureRuleBuilder<TRule, TAnalyze> builder,
         string message) 
         where TRule : class, IArchitectureRule<TAnalyze>
-        where TAnalyze : SyntaxNode 
+        where TAnalyze : class 
     {
         var rule = builder.ArchitectureRule.Evaluations.Last()!;
         rule.Descriptor = new DiagnosticDescriptor(rule.Descriptor.Id, rule.Descriptor.Title.ToString(), message,

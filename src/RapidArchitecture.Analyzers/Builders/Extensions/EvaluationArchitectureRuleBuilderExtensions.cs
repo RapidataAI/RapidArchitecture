@@ -1,7 +1,5 @@
 using System;
 using System.Linq.Expressions;
-using Microsoft.CodeAnalysis;
-using RapidArchitecture.Analyzers.Builders.Evaluation;
 using RapidArchitecture.Analyzers.Builders.Rule;
 using RapidArchitecture.Analyzers.Rules;
 
@@ -13,10 +11,9 @@ public static class EvaluationArchitectureRuleBuilderExtensions
         this EvaluationArchitectureRuleBuilder<TRule, TAnalyze> builder,
         Expression<Func<TAnalyze, bool>> expression) 
         where TRule : class, IArchitectureRule<TAnalyze>
-        where TAnalyze : SyntaxNode 
+        where TAnalyze : class
     {
-        builder.ArchitectureRule.Evaluations.Add(
-            new ExpressionEvaluator<TAnalyze>(expression, null, builder.ArchitectureRule.Severity));
+        builder.ArchitectureRule.AddEvaluation(expression);
         return new CompletedArchitectureRuleBuilder<TRule, TAnalyze>(builder.ArchitectureRule);
     }
 }

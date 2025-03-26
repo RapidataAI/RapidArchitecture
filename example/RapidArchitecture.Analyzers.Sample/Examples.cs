@@ -21,4 +21,16 @@ public class Examples
     public class Google // Try to apply quick fix using the IDE.
     {
     }
+
+    public interface IMessage
+    {
+        
+    }
+
+    public interface IDerivedMessage : IMessage;
+    
+    public class SomethingMessage : IDerivedMessage
+    {
+        
+    }
 }

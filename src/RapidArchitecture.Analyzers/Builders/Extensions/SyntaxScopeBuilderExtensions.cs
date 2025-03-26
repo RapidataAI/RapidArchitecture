@@ -7,11 +7,10 @@ namespace RapidArchitecture.Analyzers.Builders.Extensions;
 
 public static class SyntaxScopeBuilderExtensions
 {
-    public static SymbolScopeBuilder<ITypeSymbol> AssignableTo<TSyntaxNode>(this SyntaxScopeBuilder<TSyntaxNode> scopeBuilder, ITypeSymbol typeSymbol) where TSyntaxNode : TypeDeclarationSyntax
+    public static SymbolScopeBuilder<ITypeSymbol> ImplementingInterface<TSyntaxNode>(this SyntaxScopeBuilder<TSyntaxNode> scopeBuilder, string fqdn) 
+        where TSyntaxNode : TypeDeclarationSyntax
     {
-        return new SymbolScopeBuilder<ITypeSymbol>(s => s.AllInterfaces.Any(i =>
-                i.Equals(typeSymbol, SymbolEqualityComparer.Default) ||
-                i.AllInterfaces.Any(ii => ii.Equals(typeSymbol, SymbolEqualityComparer.Default))),
+        return new SymbolScopeBuilder<ITypeSymbol>(s => s.AllInterfaces.Any(i => string.Equals(i.Name, fqdn)),
             scopeBuilder.Build(), [SymbolKind.NamedType]);
     }
 }
