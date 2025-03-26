@@ -1,6 +1,4 @@
-using System.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using RapidArchitecture.Analyzers.Architecture;
 using RapidArchitecture.Analyzers.Builders.Extensions;
@@ -14,13 +12,12 @@ public class RapidataCompanyArchitecture : ArchitectureAnalyzer
     {
         RuleFor(Types().ResidingInNamespace("Rapidata"))
             .Should()
-            .Custom(x => x.Identifier.Text.Contains("Rapidata"))
-            .WithLocation(x => x.Identifier.GetLocation())
+            .HaveNameMatching(x => x.Contains("Rapidata"))
             .WithMessage("Type name must contain 'Rapidata'");
 
         RuleFor(Types().ImplementingInterface("IMessage"))
             .Must()
-            .Custom(x => x.Name.EndsWith("Message"))
+            .HaveNameMatching(x => x.EndsWith("Message"))
             .WithMessage("Type name must end with 'Message'");
     }
 }
