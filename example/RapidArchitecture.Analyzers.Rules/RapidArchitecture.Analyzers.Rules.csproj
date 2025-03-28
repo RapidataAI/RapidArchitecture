@@ -12,9 +12,10 @@
         <RootNamespace>RapidArchitecture.Analyzers.Rules</RootNamespace>
         <AssemblyName>RapidArchitecture.Analyzers.Rules</AssemblyName>
     </PropertyGroup>
-    
+
     <ItemGroup>
-      <ProjectReference Include="..\..\src\RapidArchitecture.Analyzers\RapidArchitecture.Analyzers.csproj" OutputItemType="Analyzer"/>
+        <PackageReference Include="RapidArchitecture" Version="0.0.4" />
     </ItemGroup>
+    
 
 </Project>
