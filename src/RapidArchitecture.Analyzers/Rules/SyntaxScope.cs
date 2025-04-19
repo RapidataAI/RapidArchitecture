@@ -10,10 +10,10 @@ namespace RapidArchitecture.Analyzers.Rules;
 public class SyntaxScope<TSyntaxNode> : ISyntaxScope
     where TSyntaxNode : SyntaxNode
 {
-    public SyntaxScope(SyntaxKind[] syntaxKinds, Expression<Func<TSyntaxNode, bool>> filter)
+    public SyntaxScope(SyntaxKind[] syntaxKinds, Func<TSyntaxNode, bool> filter)
     {
         SyntaxKinds = syntaxKinds;
-        Filter = filter.Compile();
+        Filter = filter;
     }
     
     public SyntaxKind[] SyntaxKinds { get; }

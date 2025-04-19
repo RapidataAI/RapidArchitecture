@@ -10,12 +10,13 @@ public static class EvaluationSymbolArchitectureRuleBuilderExtensions
 {
     public static CompletedArchitectureRuleBuilder<TRule, TAnalyze> HaveNameMatching<TRule, TAnalyze>(
         this EvaluationArchitectureRuleBuilder<TRule, TAnalyze> builder,
-        Expression<Func<string, bool>> expression) 
+        Func<string, bool> expression) 
         where TRule : class, IArchitectureRule<TAnalyze>
         where TAnalyze : class, ITypeSymbol
     {
-        Expression<Func<TAnalyze, string>> nameExpression = static x => x.Name;
-        builder.ArchitectureRule.AddEvaluation(x => expression.Compile().Invoke(nameExpression.Compile().Invoke(x)));
+        builder.ArchitectureRule.AddEvaluation(x => expression(NameExpression(x)));
         return new CompletedArchitectureRuleBuilder<TRule, TAnalyze>(builder.ArchitectureRule);
+        
+        static string NameExpression(TAnalyze x) => x.Name;
     }
 }

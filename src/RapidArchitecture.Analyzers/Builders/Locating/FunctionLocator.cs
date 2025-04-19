@@ -4,11 +4,11 @@ using Microsoft.CodeAnalysis;
 
 namespace RapidArchitecture.Analyzers.Builders.Locating;
 
-public class ExpressionLocator<TSyntaxNode> : ILocator<TSyntaxNode>
+public class FunctionLocator<TSyntaxNode> : ILocator<TSyntaxNode>
 {
-    public ExpressionLocator(Expression<Func<TSyntaxNode, Location>> expression)
+    public FunctionLocator(Func<TSyntaxNode, Location> expression)
     {
-        Locate = expression.Compile();
+        Locate = expression;
     }
 
     public Func<TSyntaxNode, Location> Locate { get; }

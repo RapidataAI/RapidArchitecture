@@ -8,11 +8,11 @@ namespace RapidArchitecture.Analyzers.Builders.Scope;
 public class SymbolScopeBuilder<TSymbol> 
     where TSymbol : ISymbol
 {
-    private readonly Expression<Func<TSymbol, bool>> _filter;
+    private readonly Func<TSymbol, bool> _filter;
     private readonly ISyntaxScope? _syntaxScope;
     private readonly SymbolKind[] _symbolKinds;
 
-    public SymbolScopeBuilder(Expression<Func<TSymbol, bool>> filter, ISyntaxScope? syntaxScope, SymbolKind[] symbolKinds)
+    public SymbolScopeBuilder(Func<TSymbol, bool> filter, ISyntaxScope? syntaxScope, SymbolKind[] symbolKinds)
     {
         _filter = filter;
         _syntaxScope = syntaxScope;

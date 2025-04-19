@@ -7,12 +7,12 @@ using RapidArchitecture.Analyzers.Builders.Locating;
 
 namespace RapidArchitecture.Analyzers.Builders.Evaluation;
 
-public class ExpressionEvaluator<TAnalyze> : IEvaluator<TAnalyze>
+public class FunctionEvaluator<TAnalyze> : IEvaluator<TAnalyze>
 {
-    public ExpressionEvaluator(Expression<Func<TAnalyze, bool>> evaluation, DiagnosticSeverity severity, ILocator<TAnalyze> locator)
+    public FunctionEvaluator(Func<TAnalyze, bool> evaluation, DiagnosticSeverity severity, ILocator<TAnalyze> locator)
     {
         Locator = locator;
-        Evaluation = evaluation.Compile();
+        Evaluation = evaluation;
         Descriptor = new DiagnosticDescriptor("RA0001", "Title", "Message", "Category", severity, true);
     }
 

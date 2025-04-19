@@ -10,10 +10,10 @@ namespace RapidArchitecture.Analyzers.Rules;
 public class SymbolScope<TSymbol> 
     where TSymbol : ISymbol
 {
-    public SymbolScope(Expression<Func<TSymbol, bool>> filter, ISyntaxScope? syntaxScope, SymbolKind[] symbolKinds)
+    public SymbolScope(Func<TSymbol, bool> filter, ISyntaxScope? syntaxScope, SymbolKind[] symbolKinds)
     {
         SymbolKinds = symbolKinds;
-        Filter = filter.Compile();
+        Filter = filter;
         SyntaxScope = syntaxScope;
     }
 

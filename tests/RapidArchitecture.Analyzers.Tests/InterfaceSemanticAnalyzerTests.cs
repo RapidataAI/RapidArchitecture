@@ -1,8 +1,4 @@
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Testing;
 using RapidArchitecture.Analyzers.Architecture;
 using RapidArchitecture.Analyzers.Builders.Extensions;
 using Xunit;
@@ -19,7 +15,7 @@ public class InterfaceSemanticAnalyzerTests
     {
         public RapidataCompanyArchitecture()
         {
-            RuleFor(Types().ImplementingInterface("IMessage"))
+            RuleFor(Types().ImplementingInterface("global::SomeNamespace.IMessage"))
                 .May()
                 .Custom(x => x.Name.EndsWith("Message"))
                 .WithMessage("Type name must end with 'Message'");

@@ -22,9 +22,9 @@ public class SyntaxArchitectureRule<TSyntaxNode> : IArchitectureRule<TSyntaxNode
 
     public IReadOnlyList<IEvaluator<TSyntaxNode>> Evaluations => _evaluationBuilders.AsReadOnly();
     
-    public void AddEvaluation(Expression<Func<TSyntaxNode, bool>> evaluation)
+    public void AddEvaluation(Func<TSyntaxNode, bool> evaluation)
     {
-        _evaluationBuilders.Add(new ExpressionEvaluator<TSyntaxNode>(evaluation, Severity, new ExpressionLocator<TSyntaxNode>(e => e.GetLocation())));
+        _evaluationBuilders.Add(new FunctionEvaluator<TSyntaxNode>(evaluation, Severity, new FunctionLocator<TSyntaxNode>(e => e.GetLocation())));
     }
 
     public DiagnosticSeverity Severity { get; set; }

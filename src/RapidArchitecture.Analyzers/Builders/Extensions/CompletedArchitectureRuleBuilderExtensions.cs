@@ -13,12 +13,12 @@ public static class CompletedArchitectureRuleBuilderExtensions
 {
     public static CompletedArchitectureRuleBuilder<TRule, TAnalyze> WithLocation<TRule, TAnalyze>(
         this CompletedArchitectureRuleBuilder<TRule, TAnalyze> builder,
-        Expression<Func<TAnalyze, Location>> location) 
+        Func<TAnalyze, Location> location) 
             where TRule : class, IArchitectureRule<TAnalyze> 
             where TAnalyze : class
     {
         var evaluationBuilder = builder.ArchitectureRule.Evaluations.Last()!;
-        evaluationBuilder.Locator = new ExpressionLocator<TAnalyze>(location);
+        evaluationBuilder.Locator = new FunctionLocator<TAnalyze>(location);
         return builder;
     }
 

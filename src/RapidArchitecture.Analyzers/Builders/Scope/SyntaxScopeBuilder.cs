@@ -13,17 +13,17 @@ namespace RapidArchitecture.Analyzers.Builders.Scope;
 public class SyntaxScopeBuilder<TSyntaxNode>
     where TSyntaxNode : SyntaxNode
 {
-    public SyntaxScopeBuilder(Expression<Func<TSyntaxNode, bool>> filter, SyntaxKind[] syntaxKinds)
+    public SyntaxScopeBuilder(Func<TSyntaxNode, bool> filter, SyntaxKind[] syntaxKinds)
     {
         _filter = filter;
         SyntaxKinds = syntaxKinds;
     }
     
-    private readonly Expression<Func<TSyntaxNode, bool>> _filter;
+    private readonly Func<TSyntaxNode, bool> _filter;
 
     public SyntaxKind[] SyntaxKinds { get; }
     
-    public SyntaxScopeBuilder<TSyntaxNode> That(Expression<Func<TSyntaxNode, bool>> filter)
+    public SyntaxScopeBuilder<TSyntaxNode> That(Func<TSyntaxNode, bool> filter)
     {
         return new SyntaxScopeBuilder<TSyntaxNode>(filter, SyntaxKinds);
     }

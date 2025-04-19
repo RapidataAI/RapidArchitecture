@@ -10,7 +10,7 @@ public static class EvaluationArchitectureRuleBuilderExtensions
 {
     public static CompletedArchitectureRuleBuilder<TRule, TAnalyze> Custom<TRule, TAnalyze>(
         this EvaluationArchitectureRuleBuilder<TRule, TAnalyze> builder,
-        Expression<Func<TAnalyze, bool>> expression) 
+        Func<TAnalyze, bool> expression) 
         where TRule : class, IArchitectureRule<TAnalyze>
         where TAnalyze : class
     {
@@ -20,13 +20,14 @@ public static class EvaluationArchitectureRuleBuilderExtensions
     
     public static CompletedArchitectureRuleBuilder<TRule, TAnalyze> HaveNameMatching<TRule, TAnalyze>(
         this EvaluationArchitectureRuleBuilder<TRule, TAnalyze> builder,
-        Expression<Func<string, bool>> expression) 
+        Func<string, bool> expression) 
         where TRule : class, IArchitectureRule<TAnalyze>
         where TAnalyze : TypeDeclarationSyntax
     {
-        Expression<Func<TAnalyze, string>> nameExpression = static x => x.Identifier.Text;
-        builder.ArchitectureRule.AddEvaluation(x => expression.Compile().Invoke(nameExpression.Compile().Invoke(x)));
+        builder.ArchitectureRule.AddEvaluation(x => expression(NameExpression(x)));
         return new CompletedArchitectureRuleBuilder<TRule, TAnalyze>(builder.ArchitectureRule)
             .WithLocation(x => x.Identifier.GetLocation());
+        
+        static string NameExpression(TAnalyze x) => x.Identifier.Text;
     }
 }

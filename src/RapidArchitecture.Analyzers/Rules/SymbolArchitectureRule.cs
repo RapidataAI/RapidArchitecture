@@ -46,8 +46,8 @@ public class SymbolArchitectureRule<TSymbol> : IArchitectureRule<TSymbol>
     public IEnumerable<DiagnosticDescriptor> Descriptors => Evaluations.Select(x => x.Descriptor);
 
     public IReadOnlyList<IEvaluator<TSymbol>> Evaluations => _evaluations.AsReadOnly();
-    public void AddEvaluation(Expression<Func<TSymbol, bool>> evaluation)
+    public void AddEvaluation(Func<TSymbol, bool> evaluation)
     {
-        _evaluations.Add(new ExpressionEvaluator<TSymbol>(evaluation, Severity, new ExpressionLocator<TSymbol>(e => e.Locations.First())));
+        _evaluations.Add(new FunctionEvaluator<TSymbol>(evaluation, Severity, new FunctionLocator<TSymbol>(e => e.Locations.First())));
     }
 }

@@ -11,7 +11,7 @@ public interface IArchitectureRule<TAnalyse> : IArchitectureRule where TAnalyse 
 {
     public IReadOnlyList<IEvaluator<TAnalyse>> Evaluations { get; }
     
-    public void AddEvaluation(Expression<Func<TAnalyse, bool>> evaluation);
+    public void AddEvaluation(Func<TAnalyse, bool> evaluation);
 }
 
 public interface IArchitectureRule
